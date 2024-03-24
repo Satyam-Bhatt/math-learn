@@ -8,7 +8,12 @@ public class Healthbar : MonoBehaviour
     [Range(0,100)]
     public float health = 100;
 
+    [Header("Spring Question")]
 
+    [Range(0,100)]
+    public int turns = 2;
+    public float radius = 2;
+    public float height = 0;
 
     private void OnDrawGizmos()
     {
@@ -20,11 +25,14 @@ public class Healthbar : MonoBehaviour
 
         Handles.DrawLine(transform.position, transform.position + Vector3.right * health, 10f);
 
-        Vector3[] points = new Vector3[121];
+        Vector3[] points = new Vector3[(turns * 360)/3 + 1];
         int index = 0;
-        for(int i = 0; i <= 360; i = i + 3)
+        for(int i = 0; i <= turns * 360; i = i + 3)
         {
-            points[index] = transform.position + 5 * (AngleToDirection(i) + new Vector3(0,0,index * 0.01f));
+            float num1 = i / 3;
+            float num2 = (turns * 360) / 3;
+            float divided = num1 / num2;
+            points[index] = transform.position + radius * (AngleToDirection(i) + new Vector3(0,0,divided * height));
             index++;
         }
 
