@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,10 +11,10 @@ public class Healthbar : MonoBehaviour
 
     [Header("Spring Question")]
 
-    [Range(0,100)]
-    public int turns = 2;
+    public float turns = 2;
     public float radius = 2;
     public float height = 0;
+    public float bigRadius = 0;
 
     private void OnDrawGizmos()
     {
@@ -25,25 +26,50 @@ public class Healthbar : MonoBehaviour
 
         Handles.DrawLine(transform.position, transform.position + Vector3.right * health, 10f);
 
-        Vector3[] points = new Vector3[(turns * 360)/3 + 1];
+        int detail = 45;
+        List<Vector3> pointsArray = new List<Vector3>();
         int index = 0;
-        for(int i = 0; i <= turns * 360; i = i + 3)
+        Vector3 prev_Point2 = transform.position + bigRadius * (AngleToDirectionXZ(0));
+        for(int i = 0; i <= turns * 360; i = i + detail)
         {
-            float num1 = i / 3;
-            float num2 = (turns * 360) / 3;
-            float divided = num1 / num2;
-            points[index] = transform.position + radius * (AngleToDirection(i) + new Vector3(0,0,divided * height));
+            pointsArray.Add(transform.position + bigRadius * (AngleToDirectionXZ(i/turns)));
+            Handles.color = Color.cyan;
+            Handles.DrawLine(prev_Point2, pointsArray[index], 3f);
+            prev_Point2 = pointsArray[index];
             index++;
         }
 
 
-        Handles.color = color;
-        Handles.DrawAAPolyLine(4f, points);
+        
+        Vector3 prev_Point = pointsArray[2] + radius * (AngleToDirection(0));
+        index = 0;
+        for(int i = 0; i <= turns * 360 ; i = i + detail)
+        {
+            float num1 = i / detail;
+            float num2 = (turns * 360) / detail;
+            float divided = num1 / num2;
+            //Vector3 new_Point = pointsArray[index] + radius * (AngleToDirection(i) + new Vector3(0, 0, divided * bigRadius));
+            Vector3 new_Point = pointsArray[2] + radius * (AngleToDirection(i));
+            Handles.color = Color.black;
+            Handles.DrawLine(prev_Point, new_Point, 3f);
+
+            float greenColor2 = Mathf.InverseLerp(1, turns * 360, i);
+            float redColor2 = Mathf.InverseLerp(turns * 360, 1, i);
+            Color color2 = new Color(redColor2, greenColor2, 0, 1);
+
+            prev_Point = new_Point;
+            index++;
+        }
     }
 
     Vector3 AngleToDirection(float angle)
     {
         return new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0);
+    }
+
+    Vector3 AngleToDirectionXZ(float angle)
+    {
+        return new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
     }
 
     // Update is called once per frame
