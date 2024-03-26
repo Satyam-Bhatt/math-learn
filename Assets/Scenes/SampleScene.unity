@@ -870,10 +870,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  turns: 83.13
-  radius: 1
-  height: 1.55
-  bigRadius: 2.45
+  turns: 48.6
+  radius: 0.57
+  bigRadius: 2.14
 --- !u!4 &1577609618
 Transform:
   m_ObjectHideFlags: 0
