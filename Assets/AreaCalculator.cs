@@ -11,6 +11,36 @@ public class AreaCalculator : MonoBehaviour
        // int[] meshTriangles = GetComponent<MeshFilter>().sharedMesh.triangles;
     }
 
+    [ContextMenu("Area Calculate for Predefined Mesh")]
+    void AreaCalculate_Predefined()
+    {
+
+        mesh = GetComponent<MeshFilter>().sharedMesh;
+
+        Vector3[] vertices = mesh.vertices;
+
+        int[] triangles = mesh.triangles;
+
+       // Debug.Log("Vetices: " + mesh.vertices.Length + " Triangles: " + mesh.triangles.Length/3);
+
+        float area = 0;
+        for (int i = 0; i < triangles.Length; i = i + 3)
+        {
+            Vector3 vec_One = vertices[triangles[1 + i]] - vertices[triangles[0 + i]];
+            Vector3 vec_Two = vertices[triangles[2 + i]] - vertices[triangles[0 + i]];
+
+            float angle = Vector3.Angle(vec_One, vec_Two);
+            Debug.Log("Angle: " + angle);
+            float perperndicular_length = Vector3.Distance(vertices[triangles[1 + i]], vertices[triangles[0 + i]]) * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float base_length = Vector3.Distance(vertices[triangles[2 + i]], vertices[triangles[0 + i]]);
+            area = area + 0.5f * base_length * perperndicular_length;
+            Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: " + "" + area);
+        }
+
+
+    }
+
+
     [ContextMenu("Logger")]
     void Logger()
     {      
