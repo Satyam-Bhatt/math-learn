@@ -25,7 +25,7 @@ public class AreaCalculator : MonoBehaviour
             new Vector3(0, 0, 0),
             new Vector3(3, 3, 0),
             new Vector3(6, 0, 0),
-            new Vector3(0, 3, 0)
+            new Vector3(-5, 3, 0)
         };
         List<Vector3> normals = new List<Vector3>()
         {
@@ -42,17 +42,7 @@ public class AreaCalculator : MonoBehaviour
         mesh.SetNormals(normals);
         mesh.SetTriangles(triangles, 0);
 
-        /*        Vector3 vec_One = vertices[1] - vertices[0];
-                Vector3 vec_Two = vertices[2] - vertices[0];
-
-                float angle = Vector3.Angle(vec_One, vec_Two);
-                Debug.Log("Angle: " + angle);
-                float perperndicular_length = Vector3.Distance(vertices[1], vertices[0]) * Mathf.Sin(Mathf.Deg2Rad * angle);
-                float base_length = Vector3.Distance(vertices[2], vertices[0]);
-                float area = 0.5f * base_length * perperndicular_length;
-                Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: "+""+area);*/
-
-        Vector3 vec_One = vertices[triangles[1]] - vertices[triangles[0]];
+        /*        Vector3 vec_One = vertices[triangles[1]] - vertices[triangles[0]];
         Vector3 vec_Two = vertices[triangles[2]] - vertices[triangles[0]];
 
         float angle = Vector3.Angle(vec_One, vec_Two);
@@ -60,6 +50,21 @@ public class AreaCalculator : MonoBehaviour
         float perperndicular_length = Vector3.Distance(vertices[triangles[1]], vertices[triangles[0]]) * Mathf.Sin(Mathf.Deg2Rad * angle);
         float base_length = Vector3.Distance(vertices[triangles[2]], vertices[triangles[0]]);
         float area = 0.5f * base_length * perperndicular_length;
-        Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: " + "" + area);
+        Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: " + "" + area);*/
+
+        for (int i = 0; i < triangles.Count; i = i + 3)
+        {
+            Vector3 vec_One = vertices[triangles[1 + i]] - vertices[triangles[0 + i]];
+            Vector3 vec_Two = vertices[triangles[2 + i]] - vertices[triangles[0 + i]];
+
+            float angle = Vector3.Angle(vec_One, vec_Two);
+            Debug.Log("Angle: " + angle);
+            float perperndicular_length = Vector3.Distance(vertices[triangles[1 + i]], vertices[triangles[0 + i]]) * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float base_length = Vector3.Distance(vertices[triangles[2 + i]], vertices[triangles[0 + i]]);
+            float area = 0.5f * base_length * perperndicular_length;
+            Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: " + "" + area);
+        }
+
+
     }
 }
