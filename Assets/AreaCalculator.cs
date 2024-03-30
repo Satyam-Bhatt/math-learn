@@ -36,6 +36,7 @@ public class AreaCalculator : MonoBehaviour
             area = area + 0.5f * base_length * perperndicular_length;
             Debug.Log("base: " + base_length + " Perpendicular: " + perperndicular_length + " Area: " + "" + area);
         }
+        Debug.Log("Area: " + area);
 
 
     }
