@@ -11,6 +11,24 @@ public class AreaCalculator : MonoBehaviour
        // int[] meshTriangles = GetComponent<MeshFilter>().sharedMesh.triangles;
     }
 
+    [ContextMenu("Volume Calculate")]
+    void VolumeCalculate()
+    {
+        mesh = GetComponent<MeshFilter>().sharedMesh;
+
+        Vector3[] vertices = mesh.vertices;
+
+        int[] triangles = mesh.triangles;
+        float volume = 0;
+        for(int i = 0; i < triangles.Length; i = i + 3)
+        {
+            Vector3 crossProduct = Vector3.Cross(vertices[triangles[0 + i]], vertices[triangles[1 + i]]);
+            float dotProduct = Vector3.Dot(vertices[triangles[2 + i]], crossProduct);
+            volume = volume + Mathf.Abs(dotProduct / 6);
+            Debug.Log("Volume: " + volume);
+        }
+    }
+
     [ContextMenu("Area Calculate for Predefined Mesh")]
     void AreaCalculate_Predefined()
     {
