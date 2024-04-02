@@ -5,6 +5,7 @@ using UnityEngine;
 public class ConvexPolygonTriangulation : MonoBehaviour
 {
     [SerializeField] private List<Transform> points = new List<Transform>();
+    [SerializeField] private float time = 0.0f;
 
     private Transform nextVertex = null;
     private List<Transform> vertexToBecomePoints = new List<Transform>();
@@ -43,9 +44,9 @@ public class ConvexPolygonTriangulation : MonoBehaviour
             }
         }
 
-        Debug.DrawLine(point.position, vertex_1.position, Color.red, 10f);
-        Debug.DrawLine(point.position, vertex_2.position, Color.red, 10f);
-        Debug.DrawLine(vertex_1.position, vertex_2.position, Color.red, 10f);
+        Debug.DrawLine(point.position, vertex_1.position, Color.red, time);
+        Debug.DrawLine(point.position, vertex_2.position, Color.red, time);
+        Debug.DrawLine(vertex_1.position, vertex_2.position, Color.red, time);
         Debug.Log("Drawn");
 
         points.Remove(point);
@@ -71,9 +72,9 @@ public class ConvexPolygonTriangulation : MonoBehaviour
                 }
             }
 
-            Debug.DrawLine(point.position, vertex_1.position, Color.red, 10f);
-            Debug.DrawLine(point.position, vertexToBecomePoints[0].position, Color.red, 10f);
-            Debug.DrawLine(vertex_1.position, vertexToBecomePoints[0].position, Color.red, 10f);
+            Debug.DrawLine(point.position, vertex_1.position, Color.red, time);
+            Debug.DrawLine(point.position, vertexToBecomePoints[0].position, Color.red, time);
+            Debug.DrawLine(vertex_1.position, vertexToBecomePoints[0].position, Color.red, time);
 
             points.Remove(point);
             vertexToBecomePoints.Add(vertex_1);
