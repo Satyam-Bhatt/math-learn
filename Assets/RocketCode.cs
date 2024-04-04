@@ -28,10 +28,17 @@ public class RocketCode : MonoBehaviour
         {
             acceleration.y = -1;
         }
+        if(acceleration == Vector2.zero)
+        {
+            acceleration = new Vector2(0, -0.09f);
+        }
         
 
         velocity = velocity + acceleration;
-        Debug.Log("Velocit: " + velocity + " Acceleration: " + acceleration);
+
+        //Debug.Log("Velocit: " + velocity + " Acceleration: " + acceleration);
         transform.position = transform.position + (Vector3)velocity * speed * Time.deltaTime;
     }
+
+    //Implement Drag
 }
