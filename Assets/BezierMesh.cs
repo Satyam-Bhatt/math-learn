@@ -1,15 +1,102 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BezierMesh : MonoBehaviour
 {
     [Range(0,1)]
     [SerializeField] private float t = 0;
-    private Transform[] points;
+    [SerializeField]private Transform[] points;
+
+    Mesh mesh;
 
     private void OnDrawGizmos()
     {
-        
+        Vector3 l1_ = Vector3.Lerp(points[0].position, points[1].position, t);
+        Vector3 l2_ = Vector3.Lerp(points[1].position, points[2].position, t);
+        Vector3 l3_ = Vector3.Lerp(points[2].position, points[3].position, t);
+
+        Vector3 l12_ = Vector3.Lerp(l1_, l2_, t);
+        Vector3 l23_ = Vector3.Lerp(l2_, l3_, t);
+
+        Vector3 l123_ = Vector3.Lerp(l12_, l23_, t);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(l123_, 0.1f);
+        int detail = 32;
+        Vector3 lastPosition = points[0].position;
+        for(int i = 0; i <= detail; i++)
+        {
+            t = i / (float)detail;
+            //Debug.Log(t);
+            
+            Vector3 l1 = Vector3.Lerp(points[0].position, points[1].position, t);
+            Vector3 l2 = Vector3.Lerp(points[1].position, points[2].position, t);
+            Vector3 l3 = Vector3.Lerp(points[2].position, points[3].position, t);
+
+            Vector3 l12 = Vector3.Lerp(l1, l2, t);
+            Vector3 l23 = Vector3.Lerp(l2, l3, t);
+
+            Vector3 l123 = Vector3.Lerp(l12, l23, t);
+
+            Handles.color = Color.magenta;
+            Handles.DrawLine(lastPosition, l123, 10f);
+
+            lastPosition = l123;
+        }
+    }
+
+    [ContextMenu ("Make Plane")]
+    public void MakePlane(Vector3 point1, Vector3 point2)
+    {
+
+        Vector3 p0 = point1 + 3 * Vector3.forward;
+        Vector3 p1 = point1 - 3 * Vector3.forward;
+        Vector3 p2 = point1 + 3 * Vector3.forward;
+        Vector3 p3 = point1 - 3 * Vector3.forward;
+
+        List<Vector3> vertices = new List<Vector3>()
+        {
+            p0, p1, p2, p3
+        };
+
+        List<int> triangles = new List<int>()
+        {
+            0,2,1, 1,2,3
+        };
+
+        List<Vector3> normals = new List<Vector3>()
+        {
+            Vector3.up, Vector3.up, Vector3.up, Vector3.up
+        };
+
+        mesh = new Mesh();
+        mesh.SetVertices(vertices);
+        mesh.SetTriangles(triangles, 0);
+        mesh.SetNormals(normals);
+
+        GetComponent<MeshFilter>().sharedMesh = mesh;
+    }
+
+    private void Update()
+    {
+        int detail = 32;
+        Vector3 lastPosition = points[0].position;
+        for (int i = 0; i <= detail; i++)
+        {
+            t = i / (float)detail;
+
+            Vector3 l1 = Vector3.Lerp(points[0].position, points[1].position, t);
+            Vector3 l2 = Vector3.Lerp(points[1].position, points[2].position, t);
+            Vector3 l3 = Vector3.Lerp(points[2].position, points[3].position, t);
+
+            Vector3 l12 = Vector3.Lerp(l1, l2, t);
+            Vector3 l23 = Vector3.Lerp(l2, l3, t);
+
+            Vector3 l123 = Vector3.Lerp(l12, l23, t);
+
+            lastPosition = l123;
+        }
     }
 }
