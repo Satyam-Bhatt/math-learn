@@ -5,6 +5,7 @@ using UnityEngine;
 public class RocketCode : MonoBehaviour
 {
     [SerializeField] private float speed = 0f;
+    [SerializeField] private float drag = 1f;
 
     private Vector2 velocity;
     // Update is called once per frame
@@ -33,11 +34,18 @@ public class RocketCode : MonoBehaviour
             acceleration = new Vector2(0, -0.09f);
         }
         
+        acceleration = acceleration.normalized * speed;
+        velocity = velocity + acceleration * Time.deltaTime;
 
-        velocity = velocity + acceleration;
+        Debug.DrawLine(transform.position, transform.position + (Vector3)velocity, Color.red);
 
         //Debug.Log("Velocit: " + velocity + " Acceleration: " + acceleration);
-        transform.position = transform.position + (Vector3)velocity * speed * Time.deltaTime;
+        transform.position = transform.position + (Vector3)velocity * Time.deltaTime;
+    }
+
+    private void FixedUpdate()
+    {
+        velocity = velocity / drag;
     }
 
     //Implement Drag
