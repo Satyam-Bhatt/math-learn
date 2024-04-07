@@ -83,7 +83,9 @@ public class BezierMesh : MonoBehaviour
     {
         int detail = 32;
         Vector3 lastPosition = points[0].position;
-        for (int i = 0; i <= detail; i++)
+
+        List<Vector3> middlePoints = new List<Vector3>();
+        for (int i = 0; i <= detail - 1; i++)
         {
             t = i / (float)detail;
 
@@ -95,8 +97,51 @@ public class BezierMesh : MonoBehaviour
             Vector3 l23 = Vector3.Lerp(l2, l3, t);
 
             Vector3 l123 = Vector3.Lerp(l12, l23, t);
+            middlePoints.Add(l123);
 
             lastPosition = l123;
         }
+
+        List<Vector3> vertices = new List<Vector3>();
+        foreach (Vector3 point in middlePoints)
+        {
+            vertices.Add(point + 3 * Vector3.forward);
+            vertices.Add(point - 3 * Vector3.forward);
+        }
+
+        Debug.Log(vertices.Count);
+
+        List<int> triangles = new List<int>();
+        List<Vector3> normals = new List<Vector3>();
+        int addfactor = 0;
+        for(int i = 0; i <= vertices.Count/2 - 2; i = i + 1)
+        {
+            triangles.Add(0 + addfactor);
+            triangles.Add(2 + addfactor);
+            triangles.Add(1 + addfactor);
+
+            triangles.Add(1 + addfactor);
+            triangles.Add(2 + addfactor);
+            triangles.Add(3 + addfactor);
+
+            normals.Add(Vector3.up);
+            normals.Add(Vector3.up);
+
+            addfactor = addfactor + 2;
+        }
+
+        Debug.Log("Triangles" + triangles.Count);
+
+        for(int i = 0; i < triangles.Count; i = i + 3)
+        {
+            //Debug.Log(triangles[i] + " :1-> " +  triangles[i + 1] + " :2-> " + triangles[i + 2] + " :3-> ");
+        }
+
+        mesh = new Mesh();
+        mesh.SetVertices(vertices);
+        mesh.SetTriangles(triangles, 0);
+        //mesh.SetNormals(normals);
+
+        GetComponent<MeshFilter>().sharedMesh = mesh;
     }
 }
