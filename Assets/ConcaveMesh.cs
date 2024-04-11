@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ConcaveMesh : MonoBehaviour
 {
-    public Transform[] triangleVertices;
-    public Transform outsidePoint;
+    public List<Transform> triangleVertices = new List<Transform>();
 
     private List<Transform> vertextToBecomePoints = new List<Transform>();
     float WedgeProduct(Vector3 a, Vector3 b)
@@ -98,6 +97,49 @@ public class ConcaveMesh : MonoBehaviour
         Debug.DrawLine(point.position, vertex_1.position, Color.cyan , 20f);
         Debug.DrawLine(point.position, vertex_2.position, Color.cyan, 20f);
         Debug.DrawLine(vertex_1.position, vertex_2.position, Color.cyan, 20f);
+
+        triangleVertices.Remove(point);
+        vertextToBecomePoints.Add(vertex_1);
+        vertextToBecomePoints.Add(vertex_2);
+
+        while(triangleVertices.Count > 2)
+        {
+            distance_1 = 0;
+            point = vertextToBecomePoints[0];
+            vertextToBecomePoints.RemoveAt(0);
+
+            foreach (Transform vert_1 in triangleVertices)
+            {
+                if(vert_1 != point && vert_1 != vertextToBecomePoints[0])
+                {
+                    float distance = Vector3.Distance(point.position, vert_1.position);
+                    if(distance_1 == 0 || distance < distance_1)
+                    {
+                        distance_1 = distance;
+                        vertex_1 = vert_1;
+                    }
+                }
+            }
+
+            foreach (Transform vert_2 in triangleVertices)
+            {
+                if(vert_2 != point && vert_2 != vertex_1 && vert_2 != vertextToBecomePoints[0])
+                {
+                    if (PointInsideOrOutside(vertex_1, point, vertextToBecomePoints[0], vert_2))
+                    {
+                        vertex_1 = vert_2;
+                    }
+                }
+            }
+
+            Debug.DrawLine(point.position, vertex_1.position, Color.cyan, 20f);
+            Debug.DrawLine(point.position, vertextToBecomePoints[0].position, Color.cyan, 20f);
+            Debug.DrawLine(vertex_1.position, vertextToBecomePoints[0].position, Color.cyan, 20f);
+
+            triangleVertices.Remove(point);
+            vertextToBecomePoints.Add(vertex_1);
+        }
+
     }
 
 }
