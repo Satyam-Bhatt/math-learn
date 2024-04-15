@@ -130,6 +130,23 @@ public class BezierMesh : MonoBehaviour
             addfactor = addfactor + 2;
         }
 
+        addfactor = 0;
+        for (int i = 0; i <= vertices.Count / 2 - 2; i = i + 1)
+        {
+            triangles.Add(0 + addfactor);
+            triangles.Add(1 + addfactor);
+            triangles.Add(2 + addfactor);
+
+            triangles.Add(1 + addfactor);
+            triangles.Add(3 + addfactor);
+            triangles.Add(2 + addfactor);
+
+            normals.Add(Vector3.down);
+            normals.Add(Vector3.down);
+
+            addfactor = addfactor + 2;
+        }
+
         Debug.Log("Triangles" + triangles.Count);
 
         for(int i = 0; i < triangles.Count; i = i + 3)
