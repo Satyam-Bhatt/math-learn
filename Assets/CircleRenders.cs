@@ -23,6 +23,9 @@ public class CircleRenders : MonoBehaviour
         //sidePosition.x = bigRadius;
         
         Gizmos.DrawSphere(sidePosition, 0.1f);
+
+        float angleProjected = Mathf.Asin(radius/(2*bigRadius)) * Mathf.Rad2Deg * 4;
+        Debug.Log(angleProjected);
         
     }
 
