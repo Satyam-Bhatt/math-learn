@@ -6,6 +6,7 @@ using UnityEngine;
 public class CircleRenders : MonoBehaviour
 {
     public float radius = 1f;
+    public float radius2 = 1f;
     public float bigRadius = 2f;
     public float anngle_ = 0f;
 
@@ -16,17 +17,16 @@ public class CircleRenders : MonoBehaviour
 
         Handles.color = Color.green;
         Handles.DrawWireDisc(transform.position + (AngleToDirection(anngle_) * bigRadius), Vector3.up, radius);
-
-        Vector3 centerVector = AngleToDirection(anngle_) * bigRadius;
-
-        Vector3 sidePosition = (transform.position + (AngleToDirection(anngle_) * bigRadius) + AngleToDirection(90) * radius);
-        //sidePosition.x = bigRadius;
         
-        Gizmos.DrawSphere(sidePosition, 0.1f);
-
         float angleProjected = Mathf.Asin(radius/(2*bigRadius)) * Mathf.Rad2Deg * 4;
-        Debug.Log(angleProjected);
+        Vector3 locationEnd = AngleToDirection(angleProjected/2).normalized * bigRadius;
         
+        //Gizmos.DrawSphere(locationEnd, 0.1f);
+
+        float secondAngle = Mathf.Asin(radius2 / (2 * bigRadius)) * Mathf.Rad2Deg * 2;
+        Vector3 locationOfSecondCircle = (AngleToDirection(secondAngle + angleProjected / 2)) * bigRadius;
+
+        Handles.DrawWireDisc(locationOfSecondCircle, Vector3.up, radius2);
     }
 
     private Vector3 AngleToDirection(float angle)

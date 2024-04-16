@@ -1687,8 +1687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11412966c5e466e41a1739faa74ac1d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.49
-  bigRadius: 2.37
+  radius: 0.72
+  radius2: 0.38
+  bigRadius: 4.28
   anngle_: 0
 --- !u!4 &1616377144
 Transform:
@@ -1698,7 +1699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616377142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.30641907, y: -1.1432017, z: 7.698374}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
