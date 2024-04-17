@@ -1687,9 +1687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11412966c5e466e41a1739faa74ac1d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.72
-  radius2: 0.38
-  bigRadius: 4.28
+  radius: 1.06
+  radius2: 0.67
+  bigRadius: 5.41
+  displaceAngle: 0.100000136
   anngle_: 0
 --- !u!4 &1616377144
 Transform:
