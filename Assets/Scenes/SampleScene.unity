@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 481902551}
   - component: {fileID: 481902550}
   m_Layer: 0
-  m_Name: BezierMesh
+  m_Name: BezierMesh(Done)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 1577609618}
   - component: {fileID: 1577609617}
   m_Layer: 0
-  m_Name: Healthbar
+  m_Name: Healthbar(Done)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1674,7 +1674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1616377143
 MonoBehaviour:
   m_ObjectHideFlags: 0
