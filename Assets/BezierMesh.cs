@@ -13,27 +13,37 @@ public class BezierMesh : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 l1_ = Vector3.Lerp(points[0].position, points[1].position, t);
-        Vector3 l2_ = Vector3.Lerp(points[1].position, points[2].position, t);
-        Vector3 l3_ = Vector3.Lerp(points[2].position, points[3].position, t);
+        //Gizmos.matrix = transform.localToWorldMatrix;
+               
+        Vector3 tangent;
+
+        Vector3 l1_ = Vector3.Lerp(points[0].localPosition, points[1].localPosition, t);
+        Vector3 l2_ = Vector3.Lerp(points[1].localPosition, points[2].localPosition, t);
+        Vector3 l3_ = Vector3.Lerp(points[2].localPosition, points[3].localPosition, t);
 
         Vector3 l12_ = Vector3.Lerp(l1_, l2_, t);
         Vector3 l23_ = Vector3.Lerp(l2_, l3_, t);
 
         Vector3 l123_ = Vector3.Lerp(l12_, l23_, t);
 
+        tangent = (l23_ - l12_).normalized;
+
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(l123_, 0.1f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(l123_, tangent);
+        Gizmos.DrawRay(l123_, new Vector3(-tangent.y,tangent.x,0));
+
         int detail = 32;
         Vector3 lastPosition = points[0].position;
-        for(int i = 0; i <= detail; i++)
+        for (int i = 0; i <= detail; i++)
         {
             t = i / (float)detail;
             //Debug.Log(t);
-            
-            Vector3 l1 = Vector3.Lerp(points[0].position, points[1].position, t);
-            Vector3 l2 = Vector3.Lerp(points[1].position, points[2].position, t);
-            Vector3 l3 = Vector3.Lerp(points[2].position, points[3].position, t);
+
+            Vector3 l1 = Vector3.Lerp(points[0].localPosition, points[1].localPosition, t);
+            Vector3 l2 = Vector3.Lerp(points[1].localPosition, points[2].localPosition, t);
+            Vector3 l3 = Vector3.Lerp(points[2].localPosition, points[3].localPosition, t);
 
             Vector3 l12 = Vector3.Lerp(l1, l2, t);
             Vector3 l23 = Vector3.Lerp(l2, l3, t);
@@ -84,6 +94,8 @@ public class BezierMesh : MonoBehaviour
         int detail = 32;
         Vector3 lastPosition = points[0].position;
 
+        List<Vector3> desiNormal = new List<Vector3>();
+
         List<Vector3> middlePoints = new List<Vector3>();
         for (int i = 0; i <= detail - 1; i++)
         {
@@ -98,6 +110,9 @@ public class BezierMesh : MonoBehaviour
 
             Vector3 l123 = Vector3.Lerp(l12, l23, t);
             middlePoints.Add(l123);
+
+            Vector3 tangent = (l23-l12).normalized;
+            desiNormal.Add(new Vector3(-tangent.y, tangent.x, 0));
 
             lastPosition = l123;
         }
@@ -124,13 +139,10 @@ public class BezierMesh : MonoBehaviour
             triangles.Add(2 + addfactor);
             triangles.Add(3 + addfactor);
 
-            normals.Add(Vector3.up);
-            normals.Add(Vector3.up);
-
             addfactor = addfactor + 2;
         }
 
-        addfactor = 0;
+/*        addfactor = 0;
         for (int i = 0; i <= vertices.Count / 2 - 2; i = i + 1)
         {
             triangles.Add(0 + addfactor);
@@ -145,7 +157,7 @@ public class BezierMesh : MonoBehaviour
             normals.Add(Vector3.down);
 
             addfactor = addfactor + 2;
-        }
+        }*/
 
         Debug.Log("Triangles" + triangles.Count);
 
@@ -157,7 +169,7 @@ public class BezierMesh : MonoBehaviour
         mesh = new Mesh();
         mesh.SetVertices(vertices);
         mesh.SetTriangles(triangles, 0);
-        //mesh.SetNormals(normals);
+        mesh.SetNormals(desiNormal);
 
         GetComponent<MeshFilter>().sharedMesh = mesh;
     }
